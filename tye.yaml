@@ -1,0 +1,44 @@
+
+network: dev-environment_registrations
+ingress:
+  - name: ingress
+    bindings:
+      - port: 5000
+        protocol: http
+    rules:
+      - path: /api/registrations
+        service: registration-processor
+      - path: /
+        service: frontend
+
+extensions:
+  - name: dapr
+    log-level: debug
+    components-path: "./components"
+    enable-profiling: true
+
+  
+services:
+
+- name: registration-processor
+  project: .\services\RegistrationProcessorSolution\RegistrationProcessor\RegistrationProcessor.csproj
+
+
+- name: frontend
+  dockerFile: frontend/Dockerfile
+  args: "--no-cache"
+  dockerFileContext: ./frontend
+  bindings:
+    - protocol: http
+      port: 1400
+      containerPort: 8080
+  liveness:
+    http:
+      path: /
+    timeout: 20
+    period: 4
+  env:
+    - name: DATABASE_URL
+      value: mongodb://root:TokyoJoe138!@mongodb-sharded:27017/bff?authSource=admin
+    - name: SESSION_SECRET
+      value: 08592fbb07ff566625040da9b5dc7179

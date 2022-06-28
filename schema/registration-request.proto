@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace="Reservations.Types";
+
+message RegistrationRequest {
+    Student student = 1;
+    Course course = 2;
+    Offering offering = 3;
+    google.protobuf.Timestamp created = 4;
+
+
+    message Student {
+        string email = 1;
+        string id = 2;
+    }
+
+    message Course {
+        string courseId = 1;
+        string courseName = 2;
+        int32 numberOfDays =3;
+    }
+
+    message Offering {
+        string offeringId = 1;
+        google.protobuf.Timestamp startDate = 2;
+        int32 numberOfDays = 3;
+    }
+}
+
+
+

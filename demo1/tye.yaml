@@ -1,0 +1,13 @@
+
+
+extensions:
+  - name: dapr
+    components-path: ./Components
+
+services:
+
+  - name: client
+    project: .\EmailProducer\EmailProducer.csproj
+
+  - name: server
+    project: .\EmailService\EmailService.csproj
